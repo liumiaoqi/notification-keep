@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -24,11 +26,27 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    // 发布签名：口令与 keystore 路径放在仓外的 keystore.properties（不入库，见 .gitignore）。
+    // 文件不存在时整个签名配置跳过 —— 这样别人克隆下来照样能构建 debug 包。
+    signingConfigs {
+        create("release") {
+            val propFile = rootProject.file("keystore.properties")
+            if (propFile.exists()) {
+                val props = Properties().apply { propFile.inputStream().use { load(it) } }
+                storeFile = file(props.getProperty("storeFile"))
+                storePassword = props.getProperty("storePassword")
+                keyAlias = props.getProperty("keyAlias")
+                keyPassword = props.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
             optimization {
                 enable = false
             }
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {

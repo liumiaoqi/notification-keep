@@ -38,3 +38,6 @@ softcopyright/build/
 #   （AGENTS.md §四 末尾那条 `adb exec-out … > crash.log` 的产物 => 它是**某台机器某个时刻**的现场，
 #    可由真机重取 => 不该入库；判据 = **能否重建**，不是"像不像缓存"）
 crash.log
+
+# 发布签名口令（仓外文件，绝不入库）
+keystore.properties
