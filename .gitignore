@@ -41,3 +41,6 @@ crash.log
 
 # 发布签名口令（仓外文件，绝不入库）
 keystore.properties
+
+# 发布产物（构建生成，见 Release）
+dist/
