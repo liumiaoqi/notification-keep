@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  FileProvider 的路径白名单（2026-09-28 加）
+
+  用途：把"导出的证据包"以【临时、只读、单个文件】的形式交给用户选的那个 App
+        （邮件 / 微信 / 网盘 …）
+
+  安全边界（三条，缺一不可）：
+    1 provider 必须 exported=false（见 AndroidManifest.xml）
+    2 只在【用户点了"发送到…"】的那一刻授权（FLAG_GRANT_READ_URI_PERMISSION）
+    3 只暴露 files-path（= 应用私有目录里的导出文件）—— 数据库不在白名单里
+
+  关键取舍：本 App **仍然不申请 INTERNET**
+     => 联网发送是【用户选的那个 App】在做，不是我们
+     => "数据物理上无法外传"这条保证【没被破坏】
+-->
+<paths>
+    <!-- 只暴露 app 私有 files 目录（导出文件就写在这里） -->
+    <files-path name="exports" path="." />
+</paths>

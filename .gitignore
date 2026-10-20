@@ -1,0 +1,40 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# 核对器的对照样本（含真数据 => 不入库）
+tools/_sample/
+
+# Python 生成物（核对器/tools 下的脚本会产出）
+__pycache__/
+*.pyc
+
+# Kotlin 编译器产物（跑 ./gradlew 会生成；本不该入库）
+.kotlin/
+# C2（2026-09-28）：兜底 —— 万一有人手动把 apk 放进仓里（产物本就在 build/ 下）
+*.apk
+# 2026-09-28：AS 自动写的【本机状态】（AVD 列表 + 列排序）—— 与 workspace.xml 同类
+/.idea/deviceManager.xml
+# 同上：它记的是「上次选了哪个部署目标」=> 也是本机状态
+/.idea/deploymentTargetSelector.xml
+# 同上：AS 的 Markdown 预览设置 => 本机状态
+/.idea/markdown.xml
+# 软著登记材料的生成物（可由 softcopyright/make_listing.py 重跑，不入库）
+softcopyright/build/
+
+# 2026-10-15：拉崩溃记录时落在仓里的【散落产物】
+#   （AGENTS.md §四 末尾那条 `adb exec-out … > crash.log` 的产物 => 它是**某台机器某个时刻**的现场，
+#    可由真机重取 => 不该入库；判据 = **能否重建**，不是"像不像缓存"）
+crash.log

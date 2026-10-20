@@ -1,0 +1,27 @@
+# 行尾统一（2026-09-29 立｜规范见中枢 CONVENTIONS.md §10）—— 库内一律 LF
+#
+# 为什么加（不是洁癖）：入库形式决定 git diff / git blame / 跨机协作是否稳定；
+#   而工作区偏好是人的事，不强制。
+# 加之前【量过】：git ls-files --eol 显示库内 105 个被跟踪文件里
+#   LF=91 CRLF=1（只有 gradlew.bat，而它正该 CRLF）mixed=0 二进制=2
+#   => 所以下面这些规则【不产生任何改动】（这正是"量过才敢做"的价值）
+
+# 默认：库内 LF
+* text=auto eol=lf
+
+# 例外：Windows 命令脚本要 CRLF（cmd.exe 需要）
+# 本仓【真的用到】这一条：gradlew.bat 就在库内且是 CRLF
+#   （中枢 §10.2 原先写着"一个仓都没有 .bat/.cmd"—— 那已过时，NK 是第一个真用的）
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# 二进制：显式钉住，防 text=auto 误判
+*.jar binary
+*.webp binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.apk binary
+*.zip binary

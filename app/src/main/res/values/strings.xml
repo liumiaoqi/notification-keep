@@ -1,0 +1,9 @@
+<resources>
+    <!--
+      软件名称（2026-09-30 定）：启动器标签用它；界面标题在 MainActivity 的 TopAppBar 里是同一串。
+      软著登记的《填表说明》要求「申请材料中的软件全称应保持一致」
+        => 这个名字出现在：申请表 用户手册 页眉 截图 => 改名要四处一起改。
+      改前是 Android Studio 的默认值 "My Application"。
+    -->
+    <string name="app_name">通知留存（NK）</string>
+</resources>

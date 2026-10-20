@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+      2026-09-30（方案 C）：`BiometricPrompt` 的硬要求。
+      本 App 此前**一条 uses-permission 都没有** —— "零敏感权限"是它明确声明的性质之一。
+      `USE_BIOMETRIC` 是 normal 级（不弹运行时授权、不给网络），但它**会出现在应用的权限列表里**
+      => 这是用"进程内拿到执行权的人不能静默驱动签名密钥"换来的代价，不是白拿的。
+      决策记录：`.agents/notes/implemented/architecture/2026-09-30-option-c-user-authentication.md`
+      判据：**它不给网络权限** => "数据物理上无法外传"那条保证没被这一条破坏
+    -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+
+    <application
+        android:name=".NkApplication"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MyApplication">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.MyApplication"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+          通知监听服务（本 App 的核心能力）
+          安全要求（见 Academic/notes/notificationkeep_start_checklist.md §8）：
+             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+             => 官方机制：**只有持该权限的系统组件能绑定它** => 别的 App 绑不上
+          本 App 刻意**不申请 INTERNET 权限** => 数据物理上无法外传
+        -->
+        <service
+            android:name=".NotifListener"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
+        <!--
+          FileProvider（2026-09-28 加）—— 为了"把证据包发出去"，但**不加网络权限**
+
+          用途：用户点「发送到…」时，把导出的那个文件以【临时只读】方式交给
+                用户选的那个 App（邮件 / 微信 / 网盘 …）
+          安全边界：
+             exported="false"        => 别的 App 不能随便来读
+             grantUriPermissions      => 只有用户点的那一次才授权
+             白名单只有 files-path    => 数据库不在其中（见 res/xml/file_paths.xml）
+          关键：联网发送是【用户选的那个 App】在做 => **本 App 仍然不申请 INTERNET**
+             => "数据物理上无法外传"这条保证没被破坏
+        -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>

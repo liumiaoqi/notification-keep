@@ -1,0 +1,18 @@
+# 编辑器侧的文本约定 —— 与 .gitattributes 配套（那条路 git 够不到）
+#
+# 为什么必须两件套（中枢 CONVENTIONS.md §10.2 的原话）：
+#   "eol=lf pins what git produces at checkout; .editorconfig pins what editors write to disk
+#    —— the one CRLF vector git's filters cannot reach
+#    （git never rewrites the working tree, so an editor-written CRLF file would persist with a clean status）"
+#   => 只加 .gitattributes 是半个方案：库内干净了，工作区照样能被写成 CRLF，而且 git 不会报
+
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+
+# 例外：Windows 命令脚本（cmd.exe 需要 CRLF）
+# 与 .gitattributes 的 *.bat / *.cmd 两处【必须一致】，否则两个文件互相打架
+[*.{cmd,bat}]
+end_of_line = crlf
