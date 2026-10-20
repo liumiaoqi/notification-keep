@@ -1283,7 +1283,7 @@ def parse_key_description(ext_value: bytes) -> dict:
 #   包名 = AndroidManifest 的 applicationId
 #   证书摘要 = sha256(签名证书 DER)：本机用 keytool 从 ~/.android/debug.keystore 导出后算得
 #     `39b59b5f…`，与真链 709 里那个 32 字节摘要一致（位置 42）
-NK_PACKAGE_NAME = "com.example.myapplication"
+NK_PACKAGE_NAME = "com.liumiaoqi.notificationkeep"
 NK_SIGNING_CERT_SHA256 = "39b59b5f12bdd32fc534c2bb59fa82b17d574a5ea9b055bdf4ee7658ebd55f4b"
 
 

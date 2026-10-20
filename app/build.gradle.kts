@@ -6,13 +6,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.myapplication"
+    namespace = "com.liumiaoqi.notificationkeep"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "com.example.myapplication"
+        applicationId = "com.liumiaoqi.notificationkeep"
         // 2026-09-28 修正：原来 minSdk=36 / targetSdk=37 =>
         //    1 targetSdk 比本机系统(API 36)还高 => 系统可能限制它（实测"通知使用权"开关变灰）
         //    2 minSdk=36 => 只能装 Android 16+，换台手机就不行
@@ -20,8 +20,8 @@ android {
         //      compileSdk 保持 37（只影响编译期 API，与运行无关）
         minSdk = 31
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
