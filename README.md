@@ -1,6 +1,5 @@
 # 通知留存（NK）
 
-[![](https://img.shields.io/badge/powered_by-dsh-4D6BFE?style=flat-square&logo=deepseek&logoColor=white)](https://github.com/deepseek-ai/deepseek-harness)
 ![](https://img.shields.io/badge/license-Apache--2.0-blue?style=flat-square)
 ![](https://img.shields.io/github/v/release/liumiaoqi/notification-keep?style=flat-square)
 
